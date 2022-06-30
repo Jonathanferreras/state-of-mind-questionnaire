@@ -12,6 +12,7 @@ db.serialize(() => {
     CREATE TABLE IF NOT EXISTS SUBMISSIONS (
       ID int NOT NULL PRIMARY KEY,
       Name varchar(255) NOT NULL,
+      SubmissionDate DATE,
       Dob DATE,
       Age int,
       Happiness int,
