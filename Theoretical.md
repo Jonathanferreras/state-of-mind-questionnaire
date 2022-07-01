@@ -5,6 +5,13 @@
 ### Data Models
 
 There will be a few data models for this system: Driver, Passenger, Trip, and Shift.
+Some things to consider:
+
+1. We need registration functionality for both drivers and passengers.
+2. Collect ratings for driver/passenger ideally towards the end of each trip.
+3. Calculate driver payment towards end of trip as well.
+4. We have to assume that there will always be at least one passenger
+5. As data grows, thinking about how to get end of day data the fastest and most efficient way. Optimized queries for example
 
 ```
 Driver {
@@ -35,9 +42,11 @@ Trip {
     Driver
   },
   Driver,
-  Passenger,
+  Passenger(s),
   Tip,
-  TripCost
+  Miles
+  TripCost,
+  DriverPay: Calc(StartTime, EndTime, Passenger(s), Miles)
 }
 
 Shift {
@@ -86,3 +95,10 @@ TotalTips [
 
 Highest rated driver & Lowest rated driver:
 This can be accomplish by first sorting the Drivers we have first by using "Driver.Rating" and then returning the first driver and the last driver.
+
+```
+MinMaxRatedDrivers {
+  Min: Drivers[0],
+  Max: Drivers[Drivers.length - 1]
+}
+```
