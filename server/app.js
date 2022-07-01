@@ -32,9 +32,17 @@ app.post("/api/questionnaire", (req, res) => {
   const { name, submissionDate, dob, happiness, energy, hope, hoursOfSleep } =
     req.body;
   const age = calcAge(dob);
-  const sql = db.prepare(`
-    INSERT INTO SUBMISSIONS VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?)
-  `);
+  const insertSubmissionQuery = `INSERT INTO SUBMISSIONS VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?)`;
+  const personalAvgsQuery = `SELECT AVG(Happiness), AVG(Energy), AVG(Hopefulness), AVG(HoursSlept) FROM SUBMISSIONS WHERE Name='${name}';`;
+  const globalAvgsQuery = `SELECT AVG(Happiness), AVG(Energy), AVG(Hopefulness), AVG(HoursSlept) FROM SUBMISSIONS WHERE Age='${age}';`;
+  const sql = db.prepare(insertSubmissionQuery);
+  const response = {
+    submission: req.body,
+    averages: {
+      personal: null,
+      global: null,
+    },
+  };
 
   sql.run(
     name,
@@ -49,13 +57,13 @@ app.post("/api/questionnaire", (req, res) => {
 
   sql.finalize();
 
-  db.all("SELECT * FROM SUBMISSIONS", function (err, rows) {
-    rows.forEach(function (row) {
-      console.log(row);
+  db.all(personalAvgsQuery, (err, rows) => {
+    response.averages.personal = rows[0];
+    db.all(globalAvgsQuery, (err, rows) => {
+      response.averages.global = rows[0];
+      res.send(response);
     });
   });
-
-  res.send({ message: "Success" });
 });
 
 app.listen(PORT, () => {

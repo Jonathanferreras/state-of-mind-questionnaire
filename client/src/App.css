@@ -1,4 +1,4 @@
-.App {
+.App-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -9,8 +9,13 @@
   -webkit-box-shadow: 5px 5px 15px 5px rgba(46, 46, 46, 0.25);
   box-shadow: 5px 5px 15px 5px rgba(46, 46, 46, 0.25);
 }
-form {
+form,
+.results {
   display: flex;
   flex-direction: column;
   width: 500px;
+}
+
+.global-average {
+  color: #9b59b6;
 }
