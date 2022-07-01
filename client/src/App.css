@@ -1,8 +1,13 @@
 .App {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 10px;
+  -webkit-box-shadow: 5px 5px 15px 5px rgba(46, 46, 46, 0.25);
+  box-shadow: 5px 5px 15px 5px rgba(46, 46, 46, 0.25);
 }
 form {
   display: flex;
